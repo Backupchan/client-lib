@@ -54,10 +54,10 @@ class API:
         resp_json = check_success(response)
         return resp_json["id"]
 
-    def get_target(self, id: str) -> BackupTarget:
+    def get_target(self, id: str) -> tuple[BackupTarget, list[Backup]]:
         response = self.connection.get(f"target/{id}")
         resp_json = check_success(response)
-        return BackupTarget.from_dict(resp_json["target"])
+        return BackupTarget.from_dict(resp_json["target"]), [Backup.from_dict(backup) for backup in resp_json["backups"]]
 
     def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str):
         data = {
