@@ -43,7 +43,7 @@ class API:
         Returns ID of new backup.
         """
         data = {
-            "manual": manual
+            "manual": int(manual)
         }
 
         files = {
