@@ -27,6 +27,10 @@ class BackupTarget:
     location: str
     name_template: str
 
+    @staticmethod
+    def from_dict(d: dict) -> "BackupTarget":
+        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"])
+
 @dataclass
 class Backup:
     id: str
@@ -37,3 +41,7 @@ class Backup:
 
     def pretty_created_at(self) -> str:
         return self.created_at.strftime("%B %d, %Y %H:%M")
+
+    @staticmethod
+    def from_dict(d: dict) -> "Backup":
+        return Backup(d["id"], d["target_id"], datetime.fromisoformat(d["created_at"]), d["manual"], d["is_recycled"])
