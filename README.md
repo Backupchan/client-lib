@@ -5,7 +5,10 @@ This is the Python library for interfacing with a Backup-chan server.
 ## Installing
 
 ```bash
+# Normal install:
 pip install .
+# With extra dependencies for development:
+pip install .[dev]
 ```
 
 For instructions on setting up the server, refer to Backup-chan server's README.
