@@ -1,6 +1,6 @@
 import io
 from .connection import Connection
-from .models import *
+from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType
 
 class BackupchanAPIError(Exception):
     pass
