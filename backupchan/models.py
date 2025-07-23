@@ -38,10 +38,11 @@ class Backup:
     created_at: datetime
     manual: bool
     is_recycled: bool
+    filesize: int
 
     def pretty_created_at(self) -> str:
         return self.created_at.strftime("%B %d, %Y %H:%M")
 
     @staticmethod
     def from_dict(d: dict) -> "Backup":
-        return Backup(d["id"], d["target_id"], datetime.fromisoformat(d["created_at"]), d["manual"], d["is_recycled"])
+        return Backup(d["id"], d["target_id"], datetime.fromisoformat(d["created_at"]), d["manual"], d["is_recycled"], d["filesize"])

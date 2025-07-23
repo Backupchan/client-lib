@@ -30,7 +30,8 @@ def test_backup_from_dict():
         "target_id": "deadbeef-dead-beef-dead-beefdeadbeef",
         "created_at": created_at.isoformat(),
         "manual": False,
-        "is_recycled": True
+        "is_recycled": True,
+        "filesize": 123456
     }
 
     backup = Backup.from_dict(json_backup)
@@ -39,3 +40,4 @@ def test_backup_from_dict():
     assert backup.created_at == created_at
     assert backup.manual == json_backup["manual"]
     assert backup.is_recycled == json_backup["is_recycled"]
+    assert backup.filesize == json_backup["filesize"]
