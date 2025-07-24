@@ -17,8 +17,6 @@ class API:
     def __init__(self, host: str, port: int, api_key: str):
         self.connection = Connection(host, port, api_key)
 
-    # TODO error handling
-
     def list_targets(self) -> list[BackupTarget]:
         response = self.connection.get("target")
         targets = response[0]["targets"]
@@ -114,3 +112,8 @@ class API:
         }
         response = self.connection.delete("recycle_bin", data=data)
         check_success(response)
+
+    def get_log(self, tail: int) -> str:
+        response = self.connection.get(f"log?tail={tail}")
+        resp_json = check_success(response)
+        return resp_json["log"]
