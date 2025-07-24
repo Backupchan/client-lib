@@ -3,12 +3,14 @@ from .connection import Connection
 from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType
 
 class BackupchanAPIError(Exception):
-    pass
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
 
 def check_success(response: tuple[dict, int]) -> dict:
     data, status = response
     if not data.get("success", False):
-        raise BackupchanAPIError(f"Server returned error: {data} (code {status})")
+        raise BackupchanAPIError(f"Server returned error: {data} (code {status})", status)
     return data
 
 class API:
@@ -36,7 +38,7 @@ class API:
             "name_template": name_template,
             "deduplicate": deduplicate
         }
-        resp_json, _ = self.connection.post("target", data)
+        resp_json = check_success(self.connection.post("target", data))
         return resp_json["id"]
 
     def upload_backup(self, target_id: str, file: io.IOBase, filename: str, manual: bool) -> str:
