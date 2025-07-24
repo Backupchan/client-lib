@@ -22,7 +22,7 @@ class API:
         targets = response[0]["targets"]
         return [BackupTarget.from_dict(target) for target in targets]
 
-    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str) -> str:
+    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool) -> str:
         """
         Returns ID of new target.
         """
@@ -33,7 +33,8 @@ class API:
             "recycle_value": recycle_value,
             "recycle_action": recycle_action,
             "location": location,
-            "name_template": name_template
+            "name_template": name_template,
+            "deduplicate": deduplicate
         }
         resp_json, _ = self.connection.post("target", data)
         return resp_json["id"]
