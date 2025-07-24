@@ -60,14 +60,15 @@ class API:
         resp_json = check_success(response)
         return BackupTarget.from_dict(resp_json["target"]), [Backup.from_dict(backup) for backup in resp_json["backups"]]
 
-    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str):
+    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool):
         data = {
             "name": name,
             "recycle_criteria": recycle_criteria,
             "recycle_value": recycle_value,
             "recycle_action": recycle_action,
             "location": location,
-            "name_template": name_template
+            "name_template": name_template,
+            "deduplicate": deduplicate
         }
         response = self.connection.patch(f"target/{id}", data=data)
         check_success(response)
