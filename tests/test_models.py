@@ -10,7 +10,8 @@ def test_target_from_dict():
         "recycle_value": 13,
         "recycle_action": "recycle",
         "location": "/var/backups/touhoku",
-        "name_template": "$I_kiritanpo"
+        "name_template": "$I_kiritanpo",
+        "alias": None
     }
 
     target = BackupTarget.from_dict(json_target)
@@ -22,6 +23,7 @@ def test_target_from_dict():
     assert target.recycle_action == BackupRecycleAction.RECYCLE
     assert target.location == json_target["location"]
     assert target.name_template == json_target["name_template"]
+    assert target.alias == json_target["alias"]
 
 def test_backup_from_dict():
     created_at = datetime.datetime.now()

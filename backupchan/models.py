@@ -26,10 +26,11 @@ class BackupTarget:
     recycle_action: BackupRecycleAction
     location: str
     name_template: str
+    alias: str | None
 
     @staticmethod
     def from_dict(d: dict) -> "BackupTarget":
-        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"])
+        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["alias"])
 
 @dataclass
 class Backup:
