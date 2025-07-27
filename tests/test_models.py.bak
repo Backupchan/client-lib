@@ -11,8 +11,11 @@ def test_target_from_dict():
         "recycle_action": "recycle",
         "location": "/var/backups/touhoku",
         "name_template": "$I_kiritanpo",
-        "deduplicate": False,
+<<<<<<< HEAD
         "alias": None
+=======
+        "deduplicate": False
+>>>>>>> 91ebd84d88158447765c38dd24df5a4b804ed14e
     }
 
     target = BackupTarget.from_dict(json_target)
@@ -24,8 +27,11 @@ def test_target_from_dict():
     assert target.recycle_action == BackupRecycleAction.RECYCLE
     assert target.location == json_target["location"]
     assert target.name_template == json_target["name_template"]
-    assert target.deduplicate == json_target["deduplicate"]
+<<<<<<< HEAD
     assert target.alias == json_target["alias"]
+=======
+    assert target.deduplicate == json_target["deduplicate"]
+>>>>>>> 91ebd84d88158447765c38dd24df5a4b804ed14e
 
 def test_backup_from_dict():
     created_at = datetime.datetime.now()

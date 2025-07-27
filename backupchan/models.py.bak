@@ -26,12 +26,19 @@ class BackupTarget:
     recycle_action: BackupRecycleAction
     location: str
     name_template: str
-    deduplicate: bool
+<<<<<<< HEAD
     alias: str | None
 
     @staticmethod
     def from_dict(d: dict) -> "BackupTarget":
-        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["deduplicate"], d["alias"])
+        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["alias"])
+=======
+    deduplicate: bool
+
+    @staticmethod
+    def from_dict(d: dict) -> "BackupTarget":
+        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["deduplicate"])
+>>>>>>> 91ebd84d88158447765c38dd24df5a4b804ed14e
 
 @dataclass
 class Backup:
