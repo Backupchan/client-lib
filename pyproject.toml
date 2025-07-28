@@ -9,6 +9,9 @@ dependencies = [
     "requests"
 ]
 
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
