@@ -22,7 +22,7 @@ class API:
         targets = response[0]["targets"]
         return [BackupTarget.from_dict(target) for target in targets]
 
-    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool) -> str:
+    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None) -> str:
         """
         Returns ID of new target.
         """
@@ -34,7 +34,8 @@ class API:
             "recycle_action": recycle_action,
             "location": location,
             "name_template": name_template,
-            "deduplicate": deduplicate
+            "deduplicate": deduplicate,
+            "alias": alias
         }
         resp_json = check_success(self.connection.post("target", data))
         return resp_json["id"]
@@ -60,7 +61,7 @@ class API:
         resp_json = check_success(response)
         return BackupTarget.from_dict(resp_json["target"]), [Backup.from_dict(backup) for backup in resp_json["backups"]]
 
-    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool):
+    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None):
         data = {
             "name": name,
             "recycle_criteria": recycle_criteria,
@@ -68,7 +69,8 @@ class API:
             "recycle_action": recycle_action,
             "location": location,
             "name_template": name_template,
-            "deduplicate": deduplicate
+            "deduplicate": deduplicate,
+            "alias": alias
         }
         response = self.connection.patch(f"target/{id}", data=data)
         check_success(response)
