@@ -24,6 +24,11 @@ classifiers = [
     "Typing :: Typed"
 ]
 
+[project.urls]
+Homepage = "https://github.com/Backupchan/client-lib"
+Repository = "https://github.com/Backupchan/client-lib.git"
+Issues = "https://github.com/Backupchan/client-lib/issues"
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
