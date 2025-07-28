@@ -37,7 +37,9 @@ target_id = api.new_target(
     10,
     BackupRecycleAction.RECYCLE,
     "/var/backups/waifu",
-    "wf-$I_$D"
+    "wf-$I_$D",
+    False,
+    None
 )
 target = api.get_target(target_id)
 print(f"Created new target: {target}")
