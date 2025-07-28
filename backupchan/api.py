@@ -17,8 +17,8 @@ class API:
     def __init__(self, host: str, port: int, api_key: str):
         self.connection = Connection(host, port, api_key)
 
-    def list_targets(self) -> list[BackupTarget]:
-        response = self.connection.get("target")
+    def list_targets(self, page: int = 1) -> list[BackupTarget]:
+        response = self.connection.get(f"target?page={page}")
         targets = response[0]["targets"]
         return [BackupTarget.from_dict(target) for target in targets]
 
