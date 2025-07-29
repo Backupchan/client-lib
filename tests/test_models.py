@@ -1,5 +1,5 @@
 import datetime
-from backupchan.models import Backup, BackupType, BackupRecycleAction, BackupRecycleCriteria, BackupTarget
+from backupchan.models import Backup, BackupType, BackupRecycleAction, BackupRecycleCriteria, BackupTarget, Stats
 
 def test_target_from_dict():
     json_target = {
@@ -45,3 +45,21 @@ def test_backup_from_dict():
     assert backup.manual == json_backup["manual"]
     assert backup.is_recycled == json_backup["is_recycled"]
     assert backup.filesize == json_backup["filesize"]
+
+def test_stats_from_dict():
+    json_stats = {
+        "program_version": "1.1.0",
+        "total_target_size": 123456,
+        "total_recycle_bin_size": 654321,
+        "total_targets": 4,
+        "total_backups": 43,
+        "total_recycled_backups": 11
+    }
+
+    stats = Stats.from_dict(json_stats)
+    assert stats.program_version == json_stats["program_version"]
+    assert stats.total_target_size == json_stats["total_target_size"]
+    assert stats.total_recycle_bin_size == json_stats["total_recycle_bin_size"]
+    assert stats.total_targets == json_stats["total_targets"]
+    assert stats.total_backups == json_stats["total_backups"]
+    assert stats.total_recycled_backups == json_stats["total_recycled_backups"]

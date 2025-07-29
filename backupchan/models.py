@@ -48,3 +48,16 @@ class Backup:
     @staticmethod
     def from_dict(d: dict) -> "Backup":
         return Backup(d["id"], d["target_id"], datetime.fromisoformat(d["created_at"]), d["manual"], d["is_recycled"], d["filesize"])
+
+@dataclass
+class Stats:
+    program_version: str
+    total_target_size: int
+    total_recycle_bin_size: int
+    total_targets: int
+    total_backups: int
+    total_recycled_backups: int
+
+    @staticmethod
+    def from_dict(d: dict) -> "Stats":
+        return Stats(d["program_version"], d["total_target_size"], d["total_recycle_bin_size"], d["total_targets"], d["total_backups"], d["total_recycled_backups"])

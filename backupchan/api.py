@@ -1,6 +1,6 @@
 import io
 from .connection import Connection
-from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType
+from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats
 
 class BackupchanAPIError(Exception):
     def __init__(self, message: str, status_code: int | None = None):
@@ -119,3 +119,8 @@ class API:
         response = self.connection.get(f"log?tail={tail}")
         resp_json = check_success(response)
         return resp_json["log"]
+    
+    def view_stats(self) -> Stats:
+        response = self.connection.get("stats")
+        resp_json = check_success(response)
+        return Stats.from_dict(resp_json)
