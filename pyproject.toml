@@ -28,6 +28,7 @@ classifiers = [
 Homepage = "https://github.com/Backupchan/client-lib"
 Repository = "https://github.com/Backupchan/client-lib.git"
 Issues = "https://github.com/Backupchan/client-lib/issues"
+Changelog = "https://github.com/Backupchan/client-lib/blob/master/CHANGELOG.md"
 
 [build-system]
 requires = ["setuptools", "wheel"]
