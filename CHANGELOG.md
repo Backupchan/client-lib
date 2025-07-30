@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 0.3.1
+
+* Fixed some functions not validating response.
+
 ## 0.3.0
 
 * Added support for uploading directories directly.

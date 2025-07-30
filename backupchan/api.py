@@ -23,7 +23,8 @@ class API:
 
     def list_targets(self, page: int = 1) -> list[BackupTarget]:
         response = self.connection.get(f"target?page={page}")
-        targets = response[0]["targets"]
+        resp_json = check_success(response)
+        targets = resp_json["targets"]
         return [BackupTarget.from_dict(target) for target in targets]
 
     def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None) -> str:
