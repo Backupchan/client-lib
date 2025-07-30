@@ -1,4 +1,8 @@
 import io
+import os
+import tempfile
+import uuid
+import tarfile
 from .connection import Connection
 from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats
 
@@ -55,6 +59,25 @@ class API:
         response = self.connection.post_form(f"target/{target_id}/upload", data=data, files=files)
         resp_json = check_success(response)
         return resp_json["id"]
+    
+    def upload_backup_folder(self, target_id: str, folder_path: str, manual: bool) -> str:
+        if not os.path.isdir(folder_path):
+            raise BackupchanAPIError("Cannot upload a single file in a directory upload")
+
+        # Cannot upload a directory to a single-file target.
+        target_type = self.get_target(target_id)[0].target_type
+        if target_type == BackupType.SINGLE:
+            raise BackupchanAPIError("Cannot upload directory to a single file target")
+
+        # Make a temporary gzipped tarball containing the directory contents.
+        temp_dir = tempfile.gettempdir()
+        temp_tar_path = os.path.join(temp_dir, f"bakch-{uuid.uuid4().hex}.tar.gz")
+        with tarfile.open(temp_tar_path, "w:gz") as tar:
+            tar.add(folder_path, arcname=os.path.basename(folder_path))
+        
+        # Upload our new tar.
+        with open(temp_tar_path, "rb") as tar:
+            self.upload_backup(target_id, tar, os.path.basename(folder_path) + ".tar.gz", manual)
 
     def get_target(self, id: str) -> tuple[BackupTarget, list[Backup]]:
         response = self.connection.get(f"target/{id}")

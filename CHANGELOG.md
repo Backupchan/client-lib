@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 0.3.0
+
+* Added support for uploading directories directly.
+
 ## 0.2.0
 
 * Added viewing stats.
