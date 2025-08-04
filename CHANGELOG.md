@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 0.3.2
+
+* Stream files when doing file uploads.
+
 ## 0.3.1
 
 * Fixed some functions not validating response.

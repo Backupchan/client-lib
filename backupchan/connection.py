@@ -31,7 +31,7 @@ class Connection:
         return response.json(), response.status_code
 
     def post_form(self, endpoint: str, data: dict, files: dict, raise_on_error=False) -> tuple[dict, int]:
-        response = requests.post(self.endpoint_url(endpoint), headers=self.headers(), data=data, files=files)
+        response = requests.post(self.endpoint_url(endpoint), headers=self.headers(), data=data, files=files, stream=True)
         if raise_on_error:
             response.raise_for_status()
         return response.json(), response.status_code
