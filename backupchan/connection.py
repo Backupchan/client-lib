@@ -1,10 +1,11 @@
 import requests
 import json
+from typing import Generator
 from dataclasses import dataclass
 
 @dataclass
 class Response:
-    json_body: dict
+    json_body: dict | Generator[bytes, None, None] # is a generator when using get_stream
     status_code: int
     headers: dict
 
@@ -30,6 +31,12 @@ class Connection:
         if raise_on_error:
             response.raise_for_status()
         return Response(response.json(), response.status_code, response.headers)
+
+    def get_stream(self, endpoint: str, raise_on_error=False) -> Response:
+        response = requests.get(self.endpoint_url(endpoint), headers=self.headers(), stream=True)
+        if raise_on_error:
+            response.raise_for_status()
+        return Response(response.iter_content(chunk_size=8192), response.status_code, response.headers)
 
     def post(self, endpoint: str, data: dict, raise_on_error=False) -> Response:
         response = requests.post(self.endpoint_url(endpoint), headers=self.headers(), json=data)

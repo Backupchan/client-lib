@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 0.4.0
+
+* Added backup downloads.
+
 ## 0.3.2
 
 * Stream files when doing file uploads.

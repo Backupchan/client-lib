@@ -1,6 +1,6 @@
 [project]
 name = "backupchan-client-lib"
-version = "0.3.2"
+version = "0.4.0"
 description="Library for interfacing with Backup-chan."
 authors = [
     { name="Moltony", email="koronavirusnyj@gmail.com" } # but I probably won't respond...

@@ -3,6 +3,7 @@ import os
 import tempfile
 import uuid
 import tarfile
+from typing import Generator
 from .connection import Connection, Response
 from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats
 
@@ -11,8 +12,11 @@ class BackupchanAPIError(Exception):
         super().__init__(message)
         self.status_code = status_code
 
-def check_success(response: Response) -> dict:
-    if not response.json_body.get("success", False):
+def check_success(response: Response) -> dict | Generator[bytes, None, None]:
+    if isinstance(response.json_body, Generator):
+        if response.status_code != 200:
+            raise BackupchanAPIError(f"Server returned error (code {response.status_code})", response.status_code)
+    elif not response.json_body.get("success", False):
         raise BackupchanAPIError(f"Server returned error: {response.json_body} (code {response.status_code})", response.status_code)
     return response.json_body
 
@@ -78,6 +82,14 @@ class API:
         # Upload our new tar.
         with open(temp_tar_path, "rb") as tar:
             self.upload_backup(target_id, tar, os.path.basename(folder_path) + ".tar.gz", manual)
+
+    def download_backup(self, backup_id: str, output_directory: str) -> str:
+        response = self.connection.get_stream(f"backup/{backup_id}/download")
+        check_success(response)
+        filename = response.headers["Content-Disposition"].split("filename=")[-1].strip('"')
+        with open(filename, "wb") as file:
+            for chunk in response.json_body:
+                file.write(chunk)
 
     def get_target(self, id: str) -> tuple[BackupTarget, list[Backup]]:
         response = self.connection.get(f"target/{id}")
