@@ -1,5 +1,12 @@
 import requests
 import json
+from dataclasses import dataclass
+
+@dataclass
+class Response:
+    json_body: dict
+    status_code: int
+    headers: dict
 
 class Connection:
     def __init__(self, host: str, port: int, api_key: str):
@@ -18,32 +25,32 @@ class Connection:
     def headers(self) -> dict:
         return {"Authorization": f"Bearer {self.api_key}"}
 
-    def get(self, endpoint: str, raise_on_error=False) -> tuple[dict, int]:
+    def get(self, endpoint: str, raise_on_error=False) -> Response:
         response = requests.get(self.endpoint_url(endpoint), headers=self.headers())
         if raise_on_error:
             response.raise_for_status()
-        return response.json(), response.status_code
+        return Response(response.json(), response.status_code, response.headers)
 
-    def post(self, endpoint: str, data: dict, raise_on_error=False) -> tuple[dict, int]:
+    def post(self, endpoint: str, data: dict, raise_on_error=False) -> Response:
         response = requests.post(self.endpoint_url(endpoint), headers=self.headers(), json=data)
         if raise_on_error:
             response.raise_for_status()
-        return response.json(), response.status_code
+        return Response(response.json(), response.status_code, response.headers)
 
-    def post_form(self, endpoint: str, data: dict, files: dict, raise_on_error=False) -> tuple[dict, int]:
+    def post_form(self, endpoint: str, data: dict, files: dict, raise_on_error=False) -> Response:
         response = requests.post(self.endpoint_url(endpoint), headers=self.headers(), data=data, files=files, stream=True)
         if raise_on_error:
             response.raise_for_status()
-        return response.json(), response.status_code
+        return Response(response.json(), response.status_code, response.headers)
 
-    def patch(self, endpoint: str, data: dict, raise_on_error=False) -> tuple[dict, int]:
+    def patch(self, endpoint: str, data: dict, raise_on_error=False) -> Response:
         response = requests.patch(self.endpoint_url(endpoint), headers=self.headers(), json=data)
         if raise_on_error:
             response.raise_for_status()
-        return response.json(), response.status_code
+        return Response(response.json(), response.status_code, response.headers)
 
-    def delete(self, endpoint: str, data: dict, raise_on_error=False) -> tuple[dict, int]:
+    def delete(self, endpoint: str, data: dict, raise_on_error=False) -> Response:
         response = requests.delete(self.endpoint_url(endpoint), headers=self.headers(), json=data)
         if raise_on_error:
             response.raise_for_status()
-        return response.json(), response.status_code
+        return Response(response.json(), response.status_code, response.headers)

@@ -40,14 +40,14 @@ def test_get(conn):
     with requests_mock.Mocker() as m:
         m.get("http://localhost:5000/api/target", json=mock_response, status_code=200)
 
-        result, status = conn.get("target")
+        response = conn.get("target")
 
         check_request(m, conn, "GET")
 
-        assert status == 200
-        assert result["success"] is True
-        assert len(result["targets"]) == 1
-        assert result["targets"][0]["name"] == "My backup"
+        assert response.status_code == 200
+        assert response.json_body["success"] is True
+        assert len(response.json_body["targets"]) == 1
+        assert response.json_body["targets"][0]["name"] == "My backup"
 
 def test_post(conn):
     mock_response = {
@@ -68,13 +68,13 @@ def test_post(conn):
             "name_template": "bkp-$I"
         }
 
-        result, status = conn.post("target", payload)
+        response = conn.post("target", payload)
 
         check_request(m, conn, "POST", payload)
 
-        assert status == 201
-        assert result["success"] is True
-        assert result["id"] == NULL_UUID
+        assert response.status_code == 201
+        assert response.json_body["success"] is True
+        assert response.json_body["id"] == NULL_UUID
 
 def test_post_form(conn):
     mock_response = {
@@ -95,15 +95,15 @@ def test_post_form(conn):
             "backup_file": io.BytesIO(b"i am file")
         }
 
-        result, status = conn.post_form(f"target/{test_uuid}/upload", data=payload, files=files)
+        response = conn.post_form(f"target/{test_uuid}/upload", data=payload, files=files)
 
         last_request = m.last_request
         check_request(m, conn, "POST", payload)
         assert "multipart/form-data" in last_request.headers["Content-Type"]
 
-        assert status == 200
-        assert result["success"] is True
-        assert result["id"] == NULL_UUID
+        assert response.status_code == 200
+        assert response.json_body["success"] is True
+        assert response.json_body["id"] == NULL_UUID
 
 def test_delete(conn):
     mock_response = {
@@ -117,12 +117,12 @@ def test_delete(conn):
             "delete_files": True
         }
 
-        result, status = conn.delete(f"target/{NULL_UUID}", data=payload)
+        response = conn.delete(f"target/{NULL_UUID}", data=payload)
 
         check_request(m, conn, "DELETE", payload)
 
-        assert status == 200
-        assert result["success"] is True
+        assert response.status_code == 200
+        assert response.json_body["success"] is True
 
 def test_patch(conn):
     mock_response = {
@@ -136,9 +136,9 @@ def test_patch(conn):
             "is_recycled": True
         }
 
-        result, status = conn.patch(f"backup/{NULL_UUID}", data=payload)
+        response = conn.patch(f"backup/{NULL_UUID}", data=payload)
 
         check_request(m, conn, "PATCH", payload)
 
-        assert status == 200
-        assert result["success"] is True
+        assert response.status_code == 200
+        assert response.json_body["success"] is True

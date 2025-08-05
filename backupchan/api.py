@@ -3,7 +3,7 @@ import os
 import tempfile
 import uuid
 import tarfile
-from .connection import Connection
+from .connection import Connection, Response
 from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats
 
 class BackupchanAPIError(Exception):
@@ -11,11 +11,10 @@ class BackupchanAPIError(Exception):
         super().__init__(message)
         self.status_code = status_code
 
-def check_success(response: tuple[dict, int]) -> dict:
-    data, status = response
-    if not data.get("success", False):
-        raise BackupchanAPIError(f"Server returned error: {data} (code {status})", status)
-    return data
+def check_success(response: Response) -> dict:
+    if not response.json_body.get("success", False):
+        raise BackupchanAPIError(f"Server returned error: {response.json_body} (code {response.status_code})", response.status_code)
+    return response.json_body
 
 class API:
     def __init__(self, host: str, port: int, api_key: str):
