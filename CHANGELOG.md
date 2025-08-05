@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 0.4.1
+
+* Fixed backup download function not returning downloaded filename.
+
 ## 0.4.0
 
 * Added backup downloads.

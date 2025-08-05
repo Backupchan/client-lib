@@ -90,6 +90,7 @@ class API:
         with open(filename, "wb") as file:
             for chunk in response.json_body:
                 file.write(chunk)
+        return filename
 
     def get_target(self, id: str) -> tuple[BackupTarget, list[Backup]]:
         response = self.connection.get(f"target/{id}")
