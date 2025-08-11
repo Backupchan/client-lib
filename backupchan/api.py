@@ -50,7 +50,7 @@ class API:
 
     def upload_backup(self, target_id: str, file: io.IOBase, filename: str, manual: bool) -> str:
         """
-        Returns ID of new backup.
+        Returns ID of the job that uploads the backup.
         """
         data = {
             "manual": int(manual)
@@ -62,7 +62,7 @@ class API:
 
         response = self.connection.post_form(f"target/{target_id}/upload", data=data, files=files)
         resp_json = check_success(response)
-        return resp_json["id"]
+        return resp_json["job_id"]
     
     def upload_backup_folder(self, target_id: str, folder_path: str, manual: bool) -> str:
         if not os.path.isdir(folder_path):
