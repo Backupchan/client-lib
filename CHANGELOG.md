@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.0.0
+
+* **Breaking change**: Backup upload now returns ID of the job that is processing the upload instead of the backup ID.
+
 ## 0.4.2
 
 * Fixed backup download function not respecting output directory.
