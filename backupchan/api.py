@@ -87,10 +87,11 @@ class API:
         response = self.connection.get_stream(f"backup/{backup_id}/download")
         check_success(response)
         filename = response.headers["Content-Disposition"].split("filename=")[-1].strip('"')
-        with open(filename, "wb") as file:
+        full_path = os.path.join(output_directory, filename)
+        with open(full_path, "wb") as file:
             for chunk in response.json_body:
                 file.write(chunk)
-        return filename
+        return full_path
 
     def get_target(self, id: str) -> tuple[BackupTarget, list[Backup]]:
         response = self.connection.get(f"target/{id}")
