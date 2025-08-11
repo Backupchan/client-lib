@@ -81,7 +81,7 @@ class API:
         
         # Upload our new tar.
         with open(temp_tar_path, "rb") as tar:
-            self.upload_backup(target_id, tar, os.path.basename(folder_path) + ".tar.gz", manual)
+            return self.upload_backup(target_id, tar, os.path.basename(folder_path) + ".tar.gz", manual)
 
     def download_backup(self, backup_id: str, output_directory: str) -> str:
         response = self.connection.get_stream(f"backup/{backup_id}/download")
