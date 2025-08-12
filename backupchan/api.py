@@ -3,9 +3,10 @@ import os
 import tempfile
 import uuid
 import tarfile
+import dataclasses
 from typing import Generator
 from .connection import Connection, Response
-from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats
+from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats, SequentialFile
 
 class BackupchanAPIError(Exception):
     def __init__(self, message: str, status_code: int | None = None):
@@ -161,3 +162,37 @@ class API:
         response = self.connection.get("stats")
         resp_json = check_success(response)
         return Stats.from_dict(resp_json)
+
+    def seq_begin(self, target_id: str, file_list: list[SequentialFile], manual: bool):
+        data = {
+            "manual": int(manual),
+            "file_list": [dataclasses.asdict(file) for file in file_list]
+        }
+        response = self.connection.post(f"seq/{target_id}/begin", data=data)
+        check_success(response)
+
+    def seq_check(self, target_id: str) -> list[SequentialFile]:
+        response = self.connection.get(f"seq/{target_id}")
+        resp_json = check_success(response)
+        return [SequentialFile.from_dict(file) for file in resp_json["file_list"]]
+
+    def seq_upload(self, target_id: str, file_io: io.IOBase, file: SequentialFile):
+        data = {
+            "name": file.name,
+            "path": file.path
+        }
+
+        files = {
+            "file": file_io
+        }
+
+        response = self.connection.post_form(f"seq/{target_id}/upload", data=data, files=files)
+        check_success(response)
+
+    def seq_finish(self, target_id: str):
+        response = self.connection.post(f"seq/{target_id}/finish", data={})
+        check_success(response)
+
+    def seq_terminate(self, target_id: str):
+        response = self.connection.post(f"seq/{target_id}/terminate", data={})
+        check_success(response)

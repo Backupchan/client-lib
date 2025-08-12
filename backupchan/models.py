@@ -61,3 +61,13 @@ class Stats:
     @staticmethod
     def from_dict(d: dict) -> "Stats":
         return Stats(d["program_version"], d["total_target_size"], d["total_recycle_bin_size"], d["total_targets"], d["total_backups"], d["total_recycled_backups"])
+
+@dataclass
+class SequentialFile:
+    path: str
+    name: str
+    uploaded: bool
+
+    @staticmethod
+    def from_dict(d: dict) -> "SequentialFile":
+        return SequentialFile(d["path"], d["name"], d.get("uploaded", False))

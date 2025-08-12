@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.1.0
+
+* Added support for sequential uploads.
+
 ## 1.0.1
 
 * Fixed `upload_backup_folder` not returning value.
