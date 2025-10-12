@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from typing import Generator
 from dataclasses import dataclass
 
@@ -9,9 +10,17 @@ class Response:
     status_code: int
     headers: dict
 
+def valid_api_key(api_key: str) -> bool:
+    return re.match(r"^bakch-([a-f]|[0-9]){64}$", api_key)
+
 class Connection:
     def __init__(self, host: str, port: int, api_key: str):
-        # TODO check these
+        if len(api_key.strip()) != 0 and not valid_api_key(api_key):
+            raise ValueError("Invalid API key")
+
+        if port < 0 or port > 65535:
+            raise ValueError("Port out of range")
+
         self.api_key = api_key
 
         if host.startswith("http://") or host.startswith("https://"):

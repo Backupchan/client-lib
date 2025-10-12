@@ -127,6 +127,13 @@ class API:
         response = self.connection.delete(f"target/{id}/all", data=data)
         check_success(response)
 
+    def delete_target_recycled_backups(self, id: str, delete_files: bool):
+        data = {
+            "delete_files": delete_files
+        }
+        response = self.connection.delete(f"target/{id}/recycled", data=data)
+        check_success(response)
+
     def delete_backup(self, id: str, delete_files: bool):
         data = {
             "delete_files": delete_files

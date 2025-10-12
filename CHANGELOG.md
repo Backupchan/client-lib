@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.2.0
+
+* Added support for deleting recycled backups of target.
+
 ## 1.1.0
 
 * Added support for sequential uploads.
