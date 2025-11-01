@@ -6,7 +6,7 @@ import tarfile
 import dataclasses
 from typing import Generator
 from .connection import Connection, Response
-from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats, SequentialFile
+from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats, SequentialFile, DelayedJob, ScheduledJob
 
 class BackupchanAPIError(Exception):
     def __init__(self, message: str, status_code: int | None = None):
@@ -169,6 +169,17 @@ class API:
         response = self.connection.get("stats")
         resp_json = check_success(response)
         return Stats.from_dict(resp_json)
+
+    def list_jobs(self) -> tuple[list[DelayedJob], list[ScheduledJob]]:
+        response = self.connection.get("jobs")
+        resp_json = check_success(response)
+        delayed_jobs = []
+        scheduled_jobs = []
+        for json_job in resp_json["delayed"]:
+            delayed_jobs.append(DelayedJob.from_dict(json_job))
+        for json_job in resp_json["scheduled"]:
+            scheduled_jobs.append(ScheduledJob.from_dict(json_job))
+        return delayed_jobs, scheduled_jobs
 
     def seq_begin(self, target_id: str, file_list: list[SequentialFile], manual: bool):
         data = {

@@ -3,6 +3,9 @@ from dataclasses import dataclass
 from typing import Optional
 from datetime import datetime
 
+def from_http_date(date):
+    return datetime.strptime(date, "%a, %d %b %Y %H:%M:%S GMT")
+
 class BackupRecycleCriteria(str, Enum):
     NONE = "none"
     COUNT = "count"
@@ -71,3 +74,25 @@ class SequentialFile:
     @staticmethod
     def from_dict(d: dict) -> "SequentialFile":
         return SequentialFile(d["path"], d["name"], d.get("uploaded", False))
+
+@dataclass
+class DelayedJob:
+    id: int
+    name: str
+    status: str
+    start_time: datetime
+    end_time: datetime
+
+    @staticmethod
+    def from_dict(d: dict) -> "DelayedJob":
+        return DelayedJob(d["id"], d["name"], d["status"], from_http_date(d["start_time"]), from_http_date(d["end_time"]))
+
+@dataclass
+class ScheduledJob:
+    name: str
+    interval: int
+    next_run: datetime
+
+    @staticmethod
+    def from_dict(d: dict) -> "ScheduledJob":
+        return ScheduledJob(d["name"], d["interval"], datetime.fromtimestamp(d["next_run"]))
