@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.3.1
+
+* Added function to get human-readable timestamps for jobs.
+
 ## 1.3.0
 
 * Added support for listing jobs and force running scheduled jobs.

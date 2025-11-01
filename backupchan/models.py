@@ -87,6 +87,12 @@ class DelayedJob:
     def from_dict(d: dict) -> "DelayedJob":
         return DelayedJob(d["id"], d["name"], d["status"], from_http_date(d["start_time"]), from_http_date(d["end_time"]))
 
+    def pretty_start_time(self) -> str:
+        return self.start_time.strftime("%B %d, %Y %H:%M")
+
+    def pretty_end_time(self) -> str:
+        return self.end_time.strftime("%B %d, %Y %H:%M")
+
 @dataclass
 class ScheduledJob:
     name: str
@@ -96,3 +102,6 @@ class ScheduledJob:
     @staticmethod
     def from_dict(d: dict) -> "ScheduledJob":
         return ScheduledJob(d["name"], d["interval"], datetime.fromtimestamp(d["next_run"]))
+
+    def pretty_next_run(self) -> str):
+        return self.next_run.strftime("%B %d, %Y %H:%M")
