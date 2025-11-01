@@ -181,6 +181,9 @@ class API:
             scheduled_jobs.append(ScheduledJob.from_dict(json_job))
         return delayed_jobs, scheduled_jobs
 
+    def force_run_job(self, name: str):
+        check_success(self.connection.get(f"jobs/force_run/{name}"))
+
     def seq_begin(self, target_id: str, file_list: list[SequentialFile], manual: bool):
         data = {
             "manual": int(manual),
