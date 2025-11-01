@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.3.0
+
+* Added support for listing jobs and force running scheduled jobs.
+
 ## 1.2.0
 
 * Added support for deleting recycled backups of target.
