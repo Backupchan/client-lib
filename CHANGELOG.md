@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.3.2
+
+* Hotfix for 1.3.1
+
 ## 1.3.1
 
 * Added function to get human-readable timestamps for jobs.

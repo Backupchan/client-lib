@@ -103,5 +103,5 @@ class ScheduledJob:
     def from_dict(d: dict) -> "ScheduledJob":
         return ScheduledJob(d["name"], d["interval"], datetime.fromtimestamp(d["next_run"]))
 
-    def pretty_next_run(self) -> str):
+    def pretty_next_run(self) -> str:
         return self.next_run.strftime("%B %d, %Y %H:%M")
