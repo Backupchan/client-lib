@@ -2,13 +2,17 @@
 
 See what's changed between versions!
 
+## 1.4.1
+
+* Hotfix for 1.4.0.
+
 ## 1.4.0
 
 * Added support for minimum number of backups field.
 
 ## 1.3.2
 
-* Hotfix for 1.3.1
+* Hotfix for 1.3.1.
 
 ## 1.3.1
 
