@@ -31,7 +31,7 @@ class API:
         targets = resp_json["targets"]
         return [BackupTarget.from_dict(target) for target in targets]
 
-    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None) -> str:
+    def new_target(self, name: str, backup_type: BackupType, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None, min_backups: int | None) -> str:
         """
         Returns ID of new target.
         """
@@ -44,7 +44,8 @@ class API:
             "location": location,
             "name_template": name_template,
             "deduplicate": deduplicate,
-            "alias": alias
+            "alias": alias,
+            "min_backups": min_backups
         }
         resp_json = check_success(self.connection.post("target", data))
         return resp_json["id"]
@@ -99,7 +100,7 @@ class API:
         resp_json = check_success(response)
         return BackupTarget.from_dict(resp_json["target"]), [Backup.from_dict(backup) for backup in resp_json["backups"]]
 
-    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None):
+    def edit_target(self, id: str, name: str, recycle_criteria: BackupRecycleCriteria, recycle_value: int, recycle_action: BackupRecycleAction, location: str, name_template: str, deduplicate: bool, alias: str | None, min_backups: int | None):
         data = {
             "name": name,
             "recycle_criteria": recycle_criteria,
