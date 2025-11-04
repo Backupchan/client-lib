@@ -109,7 +109,8 @@ class API:
             "location": location,
             "name_template": name_template,
             "deduplicate": deduplicate,
-            "alias": alias
+            "alias": alias,
+            "min_backups": min_backups
         }
         response = self.connection.patch(f"target/{id}", data=data)
         check_success(response)
