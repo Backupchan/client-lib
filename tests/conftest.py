@@ -1,7 +1,7 @@
 import pytest
 from backupchan import Connection
 
-TEST_TOKEN = "test-token"
+TEST_TOKEN = f"bakch-{'a'*64}"
 
 @pytest.fixture
 def conn():

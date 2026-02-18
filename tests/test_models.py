@@ -12,7 +12,8 @@ def test_target_from_dict():
         "location": "/var/backups/touhoku",
         "name_template": "$I_kiritanpo",
         "deduplicate": False,
-        "alias": None
+        "alias": None,
+        "min_backups": 1
     }
 
     target = BackupTarget.from_dict(json_target)
@@ -26,6 +27,7 @@ def test_target_from_dict():
     assert target.name_template == json_target["name_template"]
     assert target.deduplicate == json_target["deduplicate"]
     assert target.alias == json_target["alias"]
+    assert target.min_backups == json_target["min_backups"]
 
 def test_backup_from_dict():
     created_at = datetime.datetime.now()

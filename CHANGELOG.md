@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.4.2
+
+* Fixed tests.
+
 ## 1.4.1
 
 * Hotfix for 1.4.0.
