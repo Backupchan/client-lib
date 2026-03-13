@@ -32,10 +32,11 @@ class BackupTarget:
     deduplicate: bool
     alias: str | None
     min_backups: int | None
+    tags: list[str]
 
     @staticmethod
     def from_dict(d: dict) -> "BackupTarget":
-        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["deduplicate"], d["alias"], d["min_backups"])
+        return BackupTarget(d["id"], d["name"], d["target_type"], d["recycle_criteria"], d["recycle_value"], d["recycle_action"], d["location"], d["name_template"], d["deduplicate"], d["alias"], d["min_backups"], d["tags"])
 
 @dataclass
 class Backup:

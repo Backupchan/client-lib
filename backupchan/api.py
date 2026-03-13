@@ -4,6 +4,7 @@ import tempfile
 import uuid
 import tarfile
 import dataclasses
+import urllib
 from typing import Generator
 from .connection import Connection, Response
 from .models import Backup, BackupTarget, BackupRecycleCriteria, BackupRecycleAction, BackupType, Stats, SequentialFile, DelayedJob, ScheduledJob
@@ -135,6 +136,42 @@ class API:
         }
         response = self.connection.delete(f"target/{id}/recycled", data=data)
         check_success(response)
+
+    def search_targets(
+            self, 
+            name: str | None = None, 
+            target_type: BackupType | None = None,
+            recycle_criteria: BackupRecycleCriteria | None = None,
+            recycle_action: BackupRecycleAction | None = None,
+            location: str | None = None,
+            name_template: str | None = None,
+            deduplicate: bool | None = None,
+            alias: str | None = None,
+            tags: list[str] | None = None) -> list[BackupTarget]:
+        filters = {
+            "name": name,
+            "type": target_type,
+            "recycle_criteria": recycle_criteria,
+            "recycle_action": recycle_action,
+            "location": location,
+            "name_template": name_template,
+            "deduplicate": deduplicate,
+            "alias": alias,
+            "tags": tags
+        }
+
+        params = []
+        for key, value in filters.items():
+            if value is not None:
+                if value is True:
+                    value = "on"
+                elif value is False:
+                    value = "off"
+                elif isinstance(value, list):
+                    value = " ".join(value)
+                params.append(f"{urllib.parse.quote(key)}={value}")
+        response = check_success(self.connection.get(f"target/search?{'&'.join(params)}"))
+        return [BackupTarget.from_dict(target) for target in response["targets"]]
 
     def delete_backup(self, id: str, delete_files: bool):
         data = {
