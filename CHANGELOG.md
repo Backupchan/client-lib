@@ -2,6 +2,10 @@
 
 See what's changed between versions!
 
+## 1.5.1
+
+* Added arguments for tags in target create and edit functions.
+
 ## 1.5.0
 
 * Added tags to target model.
