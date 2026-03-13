@@ -11,6 +11,10 @@ See what's changed between versions!
 * Added tags to target model.
 * Added searching targets.
 
+## 1.4.2
+
+* Fixed tests.
+
 ## 1.4.1
 
 * Hotfix for 1.4.0.
