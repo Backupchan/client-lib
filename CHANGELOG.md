@@ -2,6 +2,11 @@
 
 See what's changed between versions!
 
+## 1.5.0
+
+* Added tags to target model.
+* Added searching targets.
+
 ## 1.4.1
 
 * Hotfix for 1.4.0.
